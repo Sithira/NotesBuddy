@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:notes_buddy/db_helper/db_helper.dart';
@@ -38,6 +41,7 @@ class NoteDetailState extends State<NoteDetail> {
     titleController.text = note.title;
     descriptionController.text = note.description;
     color = note.color;
+    final photos = <File>[];
     return WillPopScope(
         onWillPop: () async {
           isEdited ? showDiscardDialog(context) : moveToLastScreen();
@@ -57,6 +61,21 @@ class NoteDetailState extends State<NoteDetail> {
                   isEdited ? showDiscardDialog(context) : moveToLastScreen();
                 }),
             actions: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => CameraCamera(
+                              onFile: (file) {
+                                photos.add(file);
+                                Navigator.pop(context);
+                                setState(() {});
+                              },
+                            )));
+                  },
+                  icon: const Icon(Icons.camera_alt,
+                      color: Colors.black)),
               IconButton(
                 icon: const Icon(
                   Icons.save,

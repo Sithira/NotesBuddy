@@ -33,7 +33,7 @@ class NoteListState extends State<NoteList> {
 
     Widget myAppBar() {
       return AppBar(
-        title: Text('Notes', style: Theme.of(context).textTheme.headline5),
+        title: Text('Notes Buddy', style: Theme.of(context).textTheme.headline5),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
