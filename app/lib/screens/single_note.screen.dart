@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:notes_buddy/db_helper/db_helper.dart';
-import 'package:notes_buddy/modal_class/notes.dart';
+import 'package:notes_buddy/services/sqlite.service.dart';
+import 'package:notes_buddy/modals/notes.dart';
 import 'package:notes_buddy/utils/widgets.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -253,7 +253,7 @@ class NoteDetailState extends State<NoteDetail> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      .copyWith(color: Colors.purple)),
+                      .copyWith(color: Colors.redAccent)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -263,7 +263,7 @@ class NoteDetailState extends State<NoteDetail> {
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      .copyWith(color: Colors.purple)),
+                      .copyWith(color: Colors.greenAccent)),
               onPressed: () {
                 Navigator.of(context).pop();
                 _delete();

@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:notes_buddy/db_helper/db_helper.dart';
-import 'package:notes_buddy/modal_class/notes.dart';
-import 'package:notes_buddy/screens/note_detail.dart';
-import 'package:notes_buddy/screens/search_note.dart';
+import 'package:notes_buddy/services/sqlite.service.dart';
+import 'package:notes_buddy/modals/notes.dart';
+import 'package:notes_buddy/screens/auth/login.screen.dart';
+import 'package:notes_buddy/screens/single_note.screen.dart';
+import 'package:notes_buddy/screens/search_note.screen.dart';
 import 'package:notes_buddy/utils/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -33,16 +34,19 @@ class NoteListState extends State<NoteList> {
 
     Widget myAppBar() {
       return AppBar(
-        title: Text('Notes Buddy', style: Theme.of(context).textTheme.headline5),
+        title: Text('Notes Buddy',
+            style: TextStyle(
+                fontSize: Theme.of(context).textTheme.headline5.fontSize,
+                color: Colors.white)),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blueAccent,
         leading: noteList.isEmpty
             ? Container()
             : IconButton(
                 icon: const Icon(
                   Icons.search,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 onPressed: () async {
                   final Note result = await showSearch(
@@ -58,14 +62,20 @@ class NoteListState extends State<NoteList> {
               : IconButton(
                   icon: Icon(
                     axisCount == 2 ? Icons.list : Icons.grid_on,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     setState(() {
                       axisCount = axisCount == 2 ? 4 : 2;
                     });
                   },
-                )
+                ),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (b) => const LoginPage()));
+              },
+              icon: const Icon(Icons.logout, color: Colors.white))
         ],
       );
     }
@@ -93,8 +103,8 @@ class NoteListState extends State<NoteList> {
         },
         tooltip: 'Add Note',
         shape: const CircleBorder(
-            side: BorderSide(color: Colors.black, width: 2.0)),
-        child: const Icon(Icons.add, color: Colors.black),
+            side: BorderSide(color: Colors.blueAccent, width: 2.0)),
+        child: const Icon(Icons.add, color: Colors.blueAccent),
         backgroundColor: Colors.white,
       ),
     );
@@ -115,7 +125,7 @@ class NoteListState extends State<NoteList> {
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
                 color: colors[noteList[index].color],
-                border: Border.all(width: 2, color: Colors.black),
+                border: Border.all(width: 2, color: Colors.blueAccent),
                 borderRadius: BorderRadius.circular(8.0)),
             child: Column(
               children: <Widget>[

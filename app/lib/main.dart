@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_buddy/screens/note_list.dart';
+import 'package:notes_buddy/screens/auth/login.screen.dart';
 import 'package:notes_buddy/services/connection_check.service.dart';
 import 'package:notes_buddy_api_client/notes_buddy_api_client.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Notes Buddy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.indigo,
         textTheme: const TextTheme(
           headline5: TextStyle(
               fontFamily: 'Sans',
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
               fontSize: 14),
         ),
       ),
-      home: const NoteList(),
+      home: const LoginPage(),
     );
   }
 }

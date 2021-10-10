@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 List<Color> colors = [
   const Color(0xFFFFFFFF),
-  const Color(0xffF28B83),
-  const Color(0xFFFCBC05),
+  const Color(0xFFA7FEEA),
+  const Color(0xFFCAF0F8),
+  const Color(0xFFE8EAEE),
   const Color(0xFFFFF476),
   const Color(0xFFCBFF90),
   const Color(0xFFA7FEEA),
+  const Color(0xFFFCBC05),
   const Color(0xFFE6C9A9),
-  const Color(0xFFE8EAEE),
-  const Color(0xFFA7FEEA),
-  const Color(0xFFCAF0F8)
+  const Color(0xffF28B83),
 ];
 
 class PriorityPicker extends StatefulWidget {
@@ -25,14 +25,12 @@ class PriorityPicker extends StatefulWidget {
 
 class _PriorityPickerState extends State<PriorityPicker> {
   int selectedIndex;
-  List<String> priorityText = ['Low', 'High', 'Very High'];
-  List<Color> priorityColor = [Colors.green, Colors.lightGreen, Colors.red];
+  List<String> priorityText = ['!', '!!', '!!!'];
+  List<Color> priorityColor = [Colors.greenAccent, Colors.amberAccent, Colors.redAccent];
 
   @override
   Widget build(BuildContext context) {
-    if (selectedIndex == null) {
-      selectedIndex = widget.selectedIndex;
-    }
+    selectedIndex ??= widget.selectedIndex;
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width,
@@ -49,7 +47,7 @@ class _PriorityPickerState extends State<PriorityPicker> {
               widget.onTap(index);
             },
             child: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               width: width / 3,
               height: 70,
               child: Container(
@@ -65,7 +63,7 @@ class _PriorityPickerState extends State<PriorityPicker> {
                     color: selectedIndex == index
                         ? priorityColor[index]
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8.0),
+                    // borderRadius: BorderRadius.circular(8.0),
                     border: selectedIndex == index
                         ? Border.all(width: 2, color: Colors.black)
                         : Border.all(width: 0, color: Colors.transparent)),
@@ -93,9 +91,7 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    if (selectedIndex == null) {
-      selectedIndex = widget.selectedIndex;
-    }
+    selectedIndex ??= widget.selectedIndex;
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width,
@@ -112,17 +108,17 @@ class _ColorPickerState extends State<ColorPicker> {
               widget.onTap(index);
             },
             child: Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               width: 50,
               height: 50,
               child: Container(
                 child: Center(
                     child: selectedIndex == index
-                        ? Icon(Icons.done)
+                        ? const Icon(Icons.done)
                         : Container()),
                 decoration: BoxDecoration(
                     color: colors[index],
-                    shape: BoxShape.circle,
+                    shape: BoxShape.rectangle,
                     border: Border.all(width: 2, color: Colors.black)),
               ),
             ),

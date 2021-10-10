@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes_buddy/modal_class/notes.dart';
+import 'package:notes_buddy/modals/notes.dart';
 
 class NotesSearch extends SearchDelegate<Note> {
   final List<Note> notes;
@@ -27,7 +27,7 @@ class NotesSearch extends SearchDelegate<Note> {
       IconButton(
         icon: const Icon(
           Icons.clear,
-          color: Colors.black,
+          color: Colors.white,
         ),
         onPressed: () {
           query = '';
@@ -41,7 +41,7 @@ class NotesSearch extends SearchDelegate<Note> {
     return IconButton(
       icon: const Icon(
         Icons.arrow_back,
-        color: Colors.black,
+        color: Colors.white,
       ),
       onPressed: () {
         close(context, null);
@@ -65,12 +65,12 @@ class NotesSearch extends SearchDelegate<Note> {
               child: Icon(
                 Icons.search,
                 size: 50,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
             Text(
               'Enter a note to search.',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.white),
             )
           ],
         )),
@@ -78,7 +78,7 @@ class NotesSearch extends SearchDelegate<Note> {
     } else {
       filteredNotes = [];
       getFilteredList(notes);
-      if (filteredNotes.length == 0) {
+      if (filteredNotes.isEmpty) {
         return Container(
           color: Colors.white,
           child: Center(
@@ -174,7 +174,7 @@ class NotesSearch extends SearchDelegate<Note> {
     } else {
       filteredNotes = [];
       getFilteredList(notes);
-      if (filteredNotes.length == 0) {
+      if (filteredNotes.isEmpty) {
         return Container(
           color: Colors.white,
           child: Center(
@@ -202,7 +202,7 @@ class NotesSearch extends SearchDelegate<Note> {
         return Container(
           color: Colors.white,
           child: ListView.builder(
-            itemCount: filteredNotes.length == null ? 0 : filteredNotes.length,
+            itemCount: filteredNotes.length ?? 0,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: const Icon(
