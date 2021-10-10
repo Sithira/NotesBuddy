@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:notes_buddy/screens/note_list.dart';
+import 'package:notes_buddy/services/connection_check.service.dart';
+import 'package:notes_buddy_api_client/notes_buddy_api_client.dart';
 
 void main() {
+  ConnectionStatusSingleton connectionStatus =
+      ConnectionStatusSingleton.getInstance();
+  connectionStatus.initialize();
+  NotesBuddyApiClient(basePathOverride: 'http://localhost:3000');
   runApp(const MyApp());
 }
 

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:notes_buddy/db_helper/db_helper.dart';
 import 'package:notes_buddy/modal_class/notes.dart';
 import 'package:notes_buddy/utils/widgets.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
@@ -67,15 +68,14 @@ class NoteDetailState extends State<NoteDetail> {
                         context,
                         MaterialPageRoute(
                             builder: (_) => CameraCamera(
-                              onFile: (file) {
-                                photos.add(file);
-                                Navigator.pop(context);
-                                setState(() {});
-                              },
-                            )));
+                                  onFile: (file) {
+                                    photos.add(file);
+                                    Navigator.pop(context);
+                                    setState(() {});
+                                  },
+                                )));
                   },
-                  icon: const Icon(Icons.camera_alt,
-                      color: Colors.black)),
+                  icon: const Icon(Icons.camera_alt, color: Colors.black)),
               IconButton(
                 icon: const Icon(
                   Icons.save,
@@ -87,6 +87,15 @@ class NoteDetailState extends State<NoteDetail> {
                       : _save();
                 },
               ),
+              widget.appBarTitle == 'Edit Note'
+                  ? IconButton(
+                      onPressed: () {
+                        Share.share(descriptionController.value.text,
+                            subject: titleController.value.text);
+                      },
+                      icon:
+                          const Icon(Icons.share_outlined, color: Colors.black))
+                  : Container(),
               IconButton(
                 icon: const Icon(Icons.delete, color: Colors.black),
                 onPressed: () {

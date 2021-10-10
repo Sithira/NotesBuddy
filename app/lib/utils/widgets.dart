@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 
 List<Color> colors = [
-  Color(0xFFFFFFFF),
-  Color(0xffF28B83),
-  Color(0xFFFCBC05),
-  Color(0xFFFFF476),
-  Color(0xFFCBFF90),
-  Color(0xFFA7FEEA),
-  Color(0xFFE6C9A9),
-  Color(0xFFE8EAEE),
-  Color(0xFFA7FEEA),
-  Color(0xFFCAF0F8)
+  const Color(0xFFFFFFFF),
+  const Color(0xffF28B83),
+  const Color(0xFFFCBC05),
+  const Color(0xFFFFF476),
+  const Color(0xFFCBFF90),
+  const Color(0xFFA7FEEA),
+  const Color(0xFFE6C9A9),
+  const Color(0xFFE8EAEE),
+  const Color(0xFFA7FEEA),
+  const Color(0xFFCAF0F8)
 ];
 
 class PriorityPicker extends StatefulWidget {
   final Function(int) onTap;
   final int selectedIndex;
+
   PriorityPicker({this.onTap, this.selectedIndex});
+
   @override
   _PriorityPickerState createState() => _PriorityPickerState();
 }
@@ -25,6 +27,7 @@ class _PriorityPickerState extends State<PriorityPicker> {
   int selectedIndex;
   List<String> priorityText = ['Low', 'High', 'Very High'];
   List<Color> priorityColor = [Colors.green, Colors.lightGreen, Colors.red];
+
   @override
   Widget build(BuildContext context) {
     if (selectedIndex == null) {
@@ -65,7 +68,7 @@ class _PriorityPickerState extends State<PriorityPicker> {
                     borderRadius: BorderRadius.circular(8.0),
                     border: selectedIndex == index
                         ? Border.all(width: 2, color: Colors.black)
-                        : Border.all(width: 0,color: Colors.transparent)),
+                        : Border.all(width: 0, color: Colors.transparent)),
               ),
             ),
           );
@@ -78,7 +81,9 @@ class _PriorityPickerState extends State<PriorityPicker> {
 class ColorPicker extends StatefulWidget {
   final Function(int) onTap;
   final int selectedIndex;
+
   ColorPicker({this.onTap, this.selectedIndex});
+
   @override
   _ColorPickerState createState() => _ColorPickerState();
 }

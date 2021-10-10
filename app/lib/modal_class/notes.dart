@@ -3,7 +3,8 @@ class Note {
   String _title;
   String _description;
   String _date;
-  int _priority, _color;
+  int _priority, _color,
+      _synced = 0;
 
   Note(this._title, this._date, this._priority, this._color,
       [this._description]);
@@ -19,6 +20,7 @@ class Note {
 
   int get priority => _priority;
   int get color => _color;
+  int get synced => _synced;
   String get date => _date;
 
   set title(String newTitle) {
