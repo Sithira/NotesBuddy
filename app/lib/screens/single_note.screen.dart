@@ -4,13 +4,13 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:notes_buddy/services/sqlite.service.dart';
-import 'package:notes_buddy/modals/notes.dart';
 import 'package:notes_buddy/utils/widgets.dart';
+import 'package:notes_buddy_api_client/notes_buddy_api_client.dart';
 import 'package:share_plus/share_plus.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
-  final Note note;
+  final NoteResponse note;
 
   const NoteDetail({Key key, this.note, this.appBarTitle}) : super(key: key);
 
@@ -24,7 +24,7 @@ class NoteDetailState extends State<NoteDetail> {
   DatabaseHelper helper = DatabaseHelper();
 
   String appBarTitle;
-  Note note;
+  NoteResponse note;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   int color;
@@ -68,6 +68,8 @@ class NoteDetailState extends State<NoteDetail> {
                         context,
                         MaterialPageRoute(
                             builder: (_) => CameraCamera(
+                                  cameraSide: CameraSide.back,
+                                  resolutionPreset: ResolutionPreset.low,
                                   onFile: (file) {
                                     photos.add(file);
                                     Navigator.pop(context);
@@ -112,7 +114,8 @@ class NoteDetailState extends State<NoteDetail> {
                   selectedIndex: 3 - note.priority,
                   onTap: (index) {
                     isEdited = true;
-                    note.priority = 3 - index;
+                    note = note.rebuild((p0) => p0..priority = 3 - index);
+                    // note.priority = 3 - index;
                   },
                 ),
                 ColorPicker(
@@ -122,7 +125,8 @@ class NoteDetailState extends State<NoteDetail> {
                       color = index;
                     });
                     isEdited = true;
-                    note.color = index;
+                    // note.color = index;
+                    note.rebuild((p0) => p0..color = index);
                   },
                 ),
                 Padding(
@@ -281,19 +285,24 @@ class NoteDetailState extends State<NoteDetail> {
 
   void updateTitle() {
     isEdited = true;
-    note.title = titleController.text;
+    // note.title = titleController.text;
+    note = note.rebuild((p0) => p0..title = titleController.text);
   }
 
   void updateDescription() {
     isEdited = true;
-    note.description = descriptionController.text;
+    // note.description = descriptionController.text;
+    note = note.rebuild((p0) => p0..description = descriptionController.text);
   }
 
   // Save data to database
   void _save() async {
     moveToLastScreen();
 
-    note.date = DateFormat.yMMMd().format(DateTime.now());
+    // note.date = DateFormat.yMMMd().format(DateTime.now());
+
+    note = note.rebuild(
+        (p0) => p0..createdAt = DateFormat.yMMMd().format(DateTime.now()));
 
     if (note.id != null) {
       await helper.updateNote(note);

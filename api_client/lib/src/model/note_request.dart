@@ -16,8 +16,17 @@ abstract class NoteRequest implements Built<NoteRequest, NoteRequestBuilder> {
     @BuiltValueField(wireName: r'title')
     String? get title;
 
-    @BuiltValueField(wireName: r'note_body')
-    String? get noteBody;
+    @BuiltValueField(wireName: r'description')
+    String? get description;
+
+    @BuiltValueField(wireName: r'color')
+    int? get color;
+
+    @BuiltValueField(wireName: r'priority')
+    int? get priority;
+
+    @BuiltValueField(wireName: r'local_id')
+    int? get localId;
 
     NoteRequest._();
 
@@ -52,11 +61,29 @@ class _$NoteRequestSerializer implements StructuredSerializer<NoteRequest> {
                 ..add(serializers.serialize(object.title,
                     specifiedType: const FullType(String)));
         }
-        if (object.noteBody != null) {
+        if (object.description != null) {
             result
-                ..add(r'note_body')
-                ..add(serializers.serialize(object.noteBody,
+                ..add(r'description')
+                ..add(serializers.serialize(object.description,
                     specifiedType: const FullType(String)));
+        }
+        if (object.color != null) {
+            result
+                ..add(r'color')
+                ..add(serializers.serialize(object.color,
+                    specifiedType: const FullType(int)));
+        }
+        if (object.priority != null) {
+            result
+                ..add(r'priority')
+                ..add(serializers.serialize(object.priority,
+                    specifiedType: const FullType(int)));
+        }
+        if (object.localId != null) {
+            result
+                ..add(r'local_id')
+                ..add(serializers.serialize(object.localId,
+                    specifiedType: const FullType(int)));
         }
         return result;
     }
@@ -80,9 +107,21 @@ class _$NoteRequestSerializer implements StructuredSerializer<NoteRequest> {
                     result.title = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
                     break;
-                case r'note_body':
-                    result.noteBody = serializers.deserialize(value,
+                case r'description':
+                    result.description = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    break;
+                case r'color':
+                    result.color = serializers.deserialize(value,
+                        specifiedType: const FullType(int)) as int;
+                    break;
+                case r'priority':
+                    result.priority = serializers.deserialize(value,
+                        specifiedType: const FullType(int)) as int;
+                    break;
+                case r'local_id':
+                    result.localId = serializers.deserialize(value,
+                        specifiedType: const FullType(int)) as int;
                     break;
             }
         }

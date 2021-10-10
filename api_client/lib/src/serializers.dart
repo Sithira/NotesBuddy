@@ -15,6 +15,7 @@ import 'package:notes_buddy_api_client/src/model/date.dart';
 import 'package:notes_buddy_api_client/src/model/api_error.dart';
 import 'package:notes_buddy_api_client/src/model/login_request.dart';
 import 'package:notes_buddy_api_client/src/model/login_response.dart';
+import 'package:notes_buddy_api_client/src/model/note_document_response.dart';
 import 'package:notes_buddy_api_client/src/model/note_request.dart';
 import 'package:notes_buddy_api_client/src/model/note_response.dart';
 import 'package:notes_buddy_api_client/src/model/sign_up_request.dart';
@@ -26,12 +27,17 @@ part 'serializers.g.dart';
   ApiError,
   LoginRequest,
   LoginResponse,
+  NoteDocumentResponse,
   NoteRequest,
   NoteResponse,
   SignUpRequest,
   UserSummary,
 ])
 Serializers serializers = (_$serializers.toBuilder()
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(String)]),
+        () => ListBuilder<String>(),
+      )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(NoteResponse)]),
         () => ListBuilder<NoteResponse>(),

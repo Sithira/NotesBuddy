@@ -15,6 +15,7 @@ export 'package:notes_buddy_api_client/src/api/notes_controller_api.dart';
 export 'package:notes_buddy_api_client/src/model/api_error.dart';
 export 'package:notes_buddy_api_client/src/model/login_request.dart';
 export 'package:notes_buddy_api_client/src/model/login_response.dart';
+export 'package:notes_buddy_api_client/src/model/note_document_response.dart';
 export 'package:notes_buddy_api_client/src/model/note_request.dart';
 export 'package:notes_buddy_api_client/src/model/note_response.dart';
 export 'package:notes_buddy_api_client/src/model/sign_up_request.dart';

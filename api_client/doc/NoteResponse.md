@@ -10,9 +10,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **title** | **String** |  | [optional] 
-**noteBody** | **String** |  | [optional] 
-**createdAt** | [**DateTime**](DateTime.md) |  | [optional] 
-**updatedAt** | [**DateTime**](DateTime.md) |  | [optional] 
+**description** | **String** |  | [optional] 
+**color** | **int** |  | [optional] 
+**priority** | **int** |  | [optional] 
+**documents** | [**BuiltList<NoteDocumentResponse>**](NoteDocumentResponse.md) |  | [optional] 
+**localId** | **int** |  | [optional] 
+**createdAt** | **String** |  | [optional] 
+**updatedAt** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

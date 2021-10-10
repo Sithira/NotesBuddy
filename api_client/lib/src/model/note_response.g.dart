@@ -12,17 +12,33 @@ class _$NoteResponse extends NoteResponse {
   @override
   final String? title;
   @override
-  final String? noteBody;
+  final String? description;
   @override
-  final DateTime? createdAt;
+  final int? color;
   @override
-  final DateTime? updatedAt;
+  final int? priority;
+  @override
+  final BuiltList<NoteDocumentResponse>? documents;
+  @override
+  final int? localId;
+  @override
+  final String? createdAt;
+  @override
+  final String? updatedAt;
 
   factory _$NoteResponse([void Function(NoteResponseBuilder)? updates]) =>
       (new NoteResponseBuilder()..update(updates)).build();
 
   _$NoteResponse._(
-      {this.id, this.title, this.noteBody, this.createdAt, this.updatedAt})
+      {this.id,
+      this.title,
+      this.description,
+      this.color,
+      this.priority,
+      this.documents,
+      this.localId,
+      this.createdAt,
+      this.updatedAt})
       : super._();
 
   @override
@@ -38,7 +54,11 @@ class _$NoteResponse extends NoteResponse {
     return other is NoteResponse &&
         id == other.id &&
         title == other.title &&
-        noteBody == other.noteBody &&
+        description == other.description &&
+        color == other.color &&
+        priority == other.priority &&
+        documents == other.documents &&
+        localId == other.localId &&
         createdAt == other.createdAt &&
         updatedAt == other.updatedAt;
   }
@@ -46,7 +66,17 @@ class _$NoteResponse extends NoteResponse {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, id.hashCode), title.hashCode), noteBody.hashCode),
+        $jc(
+            $jc(
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc($jc($jc(0, id.hashCode), title.hashCode),
+                                description.hashCode),
+                            color.hashCode),
+                        priority.hashCode),
+                    documents.hashCode),
+                localId.hashCode),
             createdAt.hashCode),
         updatedAt.hashCode));
   }
@@ -56,7 +86,11 @@ class _$NoteResponse extends NoteResponse {
     return (newBuiltValueToStringHelper('NoteResponse')
           ..add('id', id)
           ..add('title', title)
-          ..add('noteBody', noteBody)
+          ..add('description', description)
+          ..add('color', color)
+          ..add('priority', priority)
+          ..add('documents', documents)
+          ..add('localId', localId)
           ..add('createdAt', createdAt)
           ..add('updatedAt', updatedAt))
         .toString();
@@ -75,17 +109,35 @@ class NoteResponseBuilder
   String? get title => _$this._title;
   set title(String? title) => _$this._title = title;
 
-  String? _noteBody;
-  String? get noteBody => _$this._noteBody;
-  set noteBody(String? noteBody) => _$this._noteBody = noteBody;
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
-  DateTime? _createdAt;
-  DateTime? get createdAt => _$this._createdAt;
-  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
+  int? _color;
+  int? get color => _$this._color;
+  set color(int? color) => _$this._color = color;
 
-  DateTime? _updatedAt;
-  DateTime? get updatedAt => _$this._updatedAt;
-  set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
+  int? _priority;
+  int? get priority => _$this._priority;
+  set priority(int? priority) => _$this._priority = priority;
+
+  ListBuilder<NoteDocumentResponse>? _documents;
+  ListBuilder<NoteDocumentResponse> get documents =>
+      _$this._documents ??= new ListBuilder<NoteDocumentResponse>();
+  set documents(ListBuilder<NoteDocumentResponse>? documents) =>
+      _$this._documents = documents;
+
+  int? _localId;
+  int? get localId => _$this._localId;
+  set localId(int? localId) => _$this._localId = localId;
+
+  String? _createdAt;
+  String? get createdAt => _$this._createdAt;
+  set createdAt(String? createdAt) => _$this._createdAt = createdAt;
+
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
   NoteResponseBuilder() {
     NoteResponse._initializeBuilder(this);
@@ -96,7 +148,11 @@ class NoteResponseBuilder
     if ($v != null) {
       _id = $v.id;
       _title = $v.title;
-      _noteBody = $v.noteBody;
+      _description = $v.description;
+      _color = $v.color;
+      _priority = $v.priority;
+      _documents = $v.documents?.toBuilder();
+      _localId = $v.localId;
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
       _$v = null;
@@ -117,13 +173,30 @@ class NoteResponseBuilder
 
   @override
   _$NoteResponse build() {
-    final _$result = _$v ??
-        new _$NoteResponse._(
-            id: id,
-            title: title,
-            noteBody: noteBody,
-            createdAt: createdAt,
-            updatedAt: updatedAt);
+    _$NoteResponse _$result;
+    try {
+      _$result = _$v ??
+          new _$NoteResponse._(
+              id: id,
+              title: title,
+              description: description,
+              color: color,
+              priority: priority,
+              documents: _documents?.build(),
+              localId: localId,
+              createdAt: createdAt,
+              updatedAt: updatedAt);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'documents';
+        _documents?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'NoteResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

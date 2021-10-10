@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:notes_buddy/services/sqlite.service.dart';
-import 'package:notes_buddy/modals/notes.dart';
 import 'package:notes_buddy/screens/auth/login.screen.dart';
-import 'package:notes_buddy/screens/single_note.screen.dart';
 import 'package:notes_buddy/screens/search_note.screen.dart';
+import 'package:notes_buddy/screens/single_note.screen.dart';
+import 'package:notes_buddy/services/sqlite.service.dart';
+import 'package:notes_buddy/utils/dio/globals.dart';
 import 'package:notes_buddy/utils/widgets.dart';
+import 'package:notes_buddy_api_client/notes_buddy_api_client.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NoteList extends StatefulWidget {
@@ -21,7 +25,7 @@ class NoteList extends StatefulWidget {
 
 class NoteListState extends State<NoteList> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  List<Note> noteList;
+  List<NoteResponse> noteList;
   int count = 0;
   int axisCount = 2;
 
@@ -49,7 +53,7 @@ class NoteListState extends State<NoteList> {
                   color: Colors.white,
                 ),
                 onPressed: () async {
-                  final Note result = await showSearch(
+                  final NoteResponse result = await showSearch(
                       context: context, delegate: NotesSearch(notes: noteList));
                   if (result != null) {
                     navigateToDetail(result, 'Edit Note');
@@ -99,7 +103,10 @@ class NoteListState extends State<NoteList> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          navigateToDetail(Note('', '', 3, 0), 'Add Note');
+          final noteItem = NoteResponse((b) => b
+            ..priority = 3
+            ..color = 0);
+          navigateToDetail(noteItem, 'Add Note');
         },
         tooltip: 'Add Note',
         shape: const CircleBorder(
@@ -163,7 +170,7 @@ class NoteListState extends State<NoteList> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Text(noteList[index].date,
+                      Text(noteList[index].createdAt.toString(),
                           style: Theme.of(context).textTheme.subtitle2),
                     ])
               ],
@@ -226,7 +233,7 @@ class NoteListState extends State<NoteList> {
   //   Scaffold.of(context).showSnackBar(snackBar);
   // }
 
-  void navigateToDetail(Note note, String title) async {
+  void navigateToDetail(NoteResponse note, String title) async {
     bool result = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -240,13 +247,76 @@ class NoteListState extends State<NoteList> {
   void updateListView() {
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();
     dbFuture.then((database) {
-      Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
+      Future<List<NoteResponse>> noteListFuture = databaseHelper.getNoteList();
       noteListFuture.then((noteList) {
         setState(() {
           this.noteList = noteList;
           count = noteList.length;
+          fetchAndSaveLocalNote(this.noteList);
         });
       });
     });
+  }
+
+  fetchAndSaveLocalNote(List<NoteResponse> notes) async {
+    if (isConnected) {
+      final api = NotesBuddyApiClient();
+      final noteController = api.getNotesControllerApi();
+      List<int> localNotesList = noteList.map((e) => e.id).toList();
+      final apiNotesList = await noteController.getNotes();
+      log("API NOTES ${apiNotesList.data}");
+      List<int> apiNoteIds = apiNotesList.data.map((e) => e.localId).toList();
+
+      List<int> diff;
+      if (localNotesList.length >= apiNotesList.data.length) {
+        diff = localNotesList.toSet().difference(apiNoteIds.toSet()).toList();
+      } else {
+        diff = apiNoteIds.toSet().difference(localNotesList.toSet()).toList();
+      }
+
+      log("DIFF ${diff.toString()}");
+
+      for (var element in diff) {
+        log("LOCAL NOTE ID $element");
+        final note = await noteController.getANote(noteId: element);
+        log("NT DTA: $note");
+        if (note.data.id == null) {
+          var localNote = noteList.firstWhere((ele) => ele.id == element);
+          log("Note data is NULL");
+          final noteRequest = NoteRequest((b) => b
+            ..localId = localNote.id
+            ..title = localNote.title
+            ..description = localNote.description
+            ..priority = localNote.priority
+            ..color = localNote.color);
+          await noteController.createANote(noteRequest: noteRequest);
+        } else {
+          var localNote = await databaseHelper.getNote(element);
+          log("LOCAL NOTE IN ELSE: $localNote");
+          if (localNote == null) {
+            final lcNote = note.data.rebuild((p0) => p0.id = note.data.localId);
+
+            // if has documents
+            if (lcNote.documents.isNotEmpty) {
+              // save the photos in the local path
+              for (var p0 in lcNote.documents) {
+                // getting a directory path for saving
+                Directory path = await getApplicationDocumentsDirectory();
+
+                // copy the file to a new path
+
+                // var fromApi = await noteController.getDocument(noteId: lcNote.id, fileName: p0.urlPath);
+                // final File newImage = await photos.copy('${path.path}/${lcNote.id}/${p0.urlPath}');
+              }
+            }
+
+            await databaseHelper.insertNote(lcNote);
+          }
+          setState(() {
+            updateListView();
+          });
+        }
+      }
+    }
   }
 }

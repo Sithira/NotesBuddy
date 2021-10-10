@@ -10,7 +10,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **title** | **String** |  | [optional] 
-**noteBody** | **String** |  | [optional] 
+**description** | **String** |  | [optional] 
+**color** | **int** |  | [optional] 
+**priority** | **int** |  | [optional] 
+**localId** | **int** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,10 +1,11 @@
+import 'package:notes_buddy_api_client/notes_buddy_api_client.dart';
+
 class Note {
   int _id;
   String _title;
   String _description;
   String _date;
-  int _priority, _color,
-      _synced = 0;
+  int _priority, _color, _synced = 0;
 
   Note(this._title, this._date, this._priority, this._color,
       [this._description]);
@@ -19,8 +20,11 @@ class Note {
   String get description => _description;
 
   int get priority => _priority;
+
   int get color => _color;
+
   int get synced => _synced;
+
   String get date => _date;
 
   set title(String newTitle) {
@@ -74,5 +78,16 @@ class Note {
     this._priority = map['priority'];
     this._color = map['color'];
     this._date = map['date'];
+  }
+
+  NoteResponse toApiModal() {
+    final apiNote = NoteResponse((b) => b
+      ..title = _title
+      ..description = _description
+      ..color = _color
+      ..priority = _priority
+      ..createdAt = date
+      ..id = _id);
+    return apiNote;
   }
 }
